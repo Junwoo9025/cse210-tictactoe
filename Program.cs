@@ -24,11 +24,14 @@
     /// <returns>A list of 9 strings representing each square.</returns>
     static List<string> GetNewBoard()
     {
+
         
     }
 
     /// <summary>Displays the board in a 3x3 grid.</summary>
     /// <param name="board">The board</param>
+    // void = return nothing.
+    //(List<string> board) = paremeter 
     static void DisplayBoard(List<string> board)
     {
 
