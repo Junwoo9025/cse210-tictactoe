@@ -1,94 +1,120 @@
-﻿class TicTacToe
+﻿// Tic-Tac-Toe, Junwoo Jeong
+using System;
+
+namespace cse210_01
 {
-    static void Main(string[] args)
+    class TicTacToe
     {
-
-        List<string> board = GetNewBoard();
-        string currentPlayer = "x";
-
-        while (!IsGameOver(board))
+        static void Main(string[] args)
         {
-            DisplayBoard(board);
+           
+        //array of string. array itself is list.                             
+            string[] board = {"1","2","3","4","5","6","7","8","9"};
+            DisplayBoard(board);    
 
-            int choice = GetMoveChoice(currentPlayer);
-            MakeMove(board, choice, currentPlayer);
+            
+           
+           //declaration bool, declaration mean is that first time I create. 
+           //in order to declare, I have to clarify data type!!!!.
+            bool keepGoing = true;
+            string player = "x";  
+            //once you declare it you can just use it, keepgoing
+            while(keepGoing)
+            {
+                int move = GetInput(player);
+                //after you declare called getinput function
+                // = assigning, == comparsion
+                // update
+                board[move -1] = player;
+                if (CheckWinner(board) == true )
+                {
+                    keepGoing = false;
+                    return;
+                }
+                //output
+                DisplayBoard(board);
+                if (player == "x")
+                { 
+                    player = "o";                  
+                }
+                
+                else 
+                { 
+                    player = "x";                  
+                }
+                
 
-            currentPlayer = GetNextPlayer(currentPlayer);
+                 
+            }
+            
+        }
+        // int after static is return type. Make sure returing int.
+        // array list has to use []
+        static int GetInput(string player){
+            Console.Write($"{player}'s turn to choose a square (1-9): ");
+            int inPutX  = Convert.ToInt32 (Console.ReadLine());
+                                            //it allows me to get the input from the terminal
+                                            //ReadLine's return type is string.
+            return inPutX; 
+        }
+       // Console.Readline and writeLine() they are function
+        //The first player to get three of their marks in a row (vertically, horizontally, or diagonally) is the winmner.
+        static bool CheckWinner(string[] board){
+            // first column second, third  
+            // two diagonally
+            // same symbol
+            // return true.
+            //The first player to get three of their marks in a row (vertically, horizontally, or diagonally) is the winner.
+            //If all nine squares are full and neither player has three in a row, the game ends in a draw.
+        
+            if ((board[0] == board[1] && board[0] == board[2]) ||
+                (board[3] == board[4] && board[3] == board[5]) ||
+                (board[6] == board[7] && board[6] == board[8]) ||
+                (board[0] == board[3] && board[0] == board[6]) ||
+                (board[1] == board[4] && board[1] == board[7]) ||
+                (board[2] == board[5] && board[2] == board[8]) ||
+                (board[0] == board[4] && board[0] == board[8]) ||
+                (board[2] == board[4] && board[2] == board[6]))
+                {
+               Console.WriteLine("Good game. Thanks for playing!");
+               return true;
+               
+                }
+            else
+            {
+                return false;
+            }
+                
+                
+                 
+                
+            
+            
+        
         }
 
-        DisplayBoard(board);
-        Console.WriteLine("Good game. Thanks for playing!");
+        static bool CheckBoardFilled(string[] board){
+            for(int i=0; i<9;i++){
+                if(board[i]!= "x"&& board[i]!="o"){
+                    return(false);
+                }
+            }
+            return(true);
+
+        }
+       
+                            //define data type inside of parameter.
+                            //inside parmeter1. datatype 2. variable name.
+        static void DisplayBoard(string[] board){
+           
+            Console.WriteLine($"{board[0]}|{board[1]}|{board[2]}");
+            Console.WriteLine("-+-+-");
+            Console.WriteLine($"{board[3]}|{board[4]}|{board[5]}");
+            Console.WriteLine("-+-+-");
+            Console.WriteLine($"{board[6]}|{board[7]}|{board[8]}");
+            Console.WriteLine();
+        }
     }
-
-    /// <summary>Gets a new instance of the board with the numbers 1-9 in place. </summary>
-    /// <returns>A list of 9 strings representing each square.</returns>
-    static List<string> GetNewBoard()
-    {
-
+    }
+ 
         
-    }
-
-    /// <summary>Displays the board in a 3x3 grid.</summary>
-    /// <param name="board">The board</param>
-    // void = return nothing.
-    //(List<string> board) = paremeter 
-    static void DisplayBoard(List<string> board)
-    {
-
-    }
-
-    /// <summary>
-    /// Determines if the game is over because of a win or a tie.
-    /// </summary>
-    /// <param name="board">The current board.</param>
-    /// <returns>True if the game is over</returns>
-    static bool IsGameOver(List<string> board)
-    {
-        return false;
-    }
-
-    /// <summary>Determines if the provided player has a tic tac toe.</summary>
-    /// <param name="board">The current board</param>
-    /// <param name="player">The player to check for a win</param>
-    /// <returns></returns>
-    static bool IsWinner(List<string> board, string player)
-    {
-        return false;
-    }
-
-    /// <summary>Determines if the board is full with no more moves possible.</summary>
-    /// <param name="board">The current board.</param>
-    /// <returns>True if the board is full.</returns>
-    static bool IsTie(List<string> board)
-    {
-        return false;
-    }
-
-    /// <summary>Cycles through the players (from x to o and o to x)</summary>
-    /// <param name="currentPlayer">The current players sign (x or o)</param>
-    /// <returns>The next players sign (x or o)</returns>
-    static string GetNextPlayer(string currentPlayer)
-    {
-        return "x";
-    }
-
-    /// <summary>Gets the 1-based spot number associated with the user's choice.</summary>
-    /// <param name="currentPlayer">The sign (x or o) of the current player.</param>
-    /// <returns>A 1-based spot number (not a 0-based index)</returns>
-    static int GetMoveChoice(string currentPlayer)
-    {
-        return 1;
-    }
-
-    /// <summary>
-    /// Places the current players mark on the board at the desired spot.
-    /// This method does NOT check to ensure the spot is available.
-    /// </summary>
-    /// <param name="board">The current board</param>
-    /// <param name="choice">The 1-based spot number (not a 0-based index).</param>
-    /// <param name="currentPlayer">The current player's sign (x or o)</param>
-    static void MakeMove(List<string> board, int choice, string currentPlayer)
-    {
-
-    }
-}
